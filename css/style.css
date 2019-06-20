@@ -43,7 +43,11 @@ body {font-family: Verdana, sans-serif;}
   color: #666;
   text-align: center;
 }
-
+.active {
+    padding: 5px;
+    background: #1abc9c;
+    color: white !important
+  }
 .days {
   padding: 10px 0;
   background: #eee;
@@ -60,11 +64,11 @@ body {font-family: Verdana, sans-serif;}
   color: #777;
 }
 
-.days li .active {
-  padding: 5px;
+/* .days li .active {
+  padding: 2px;
   background: #1abc9c;
   color: white !important
-}
+} */
 
 /* Add media queries for smaller screens */
 @media screen and (max-width:720px) {
