@@ -22,6 +22,7 @@
 
     window.onload = function () {
         init();
+        dayEventListener();
     };
     
     var prev = document.querySelector(".prev");
@@ -66,7 +67,7 @@
         populateDateGrid();
         console.log("init day "+currDay + " init date "+currDate);
         //activateElem(weekElem.childNodes[((currDay+1)*2)-1]);
-        activateElem(dateElem.childNodes[(currDate+dayValue())]); //because every li element has a text node extra here
+        activateElem(dateElem.childNodes[(currDate+dayValue())].firstChild); //because every li element has a text node extra here
     }
     function activateElem(elem) {
         elem.className = 'active';
@@ -82,6 +83,24 @@
         addCurrMonthDates();
         addNextMonthDates();
     }
+    function dayEventListener() {
+        console.log("inside dayEventListenr conditon");
+        var dayUL = document.getElementById('daysOfMonth');
+        var selectedLi;
+
+        dayUL.onclick = function(event) {
+          let target = event.target;
+    
+          while (target != this) {
+            if (target.tagName == 'LI') {
+                activateElem(target.firstChild);
+              return;
+            }
+            target = target.parentNode;
+          }
+        }
+    }
+
     function addPrevMonthDates() {
         
         var daysInPrevMonth = days[getPrevMonth()];
@@ -111,6 +130,7 @@
         }
     }
     function addNextMonthDates() {
+        
         for (var index = 1; index <= (42-dayLICount); index++) {
             var item = createLI(index);
             item.className = 'gray';
@@ -118,9 +138,27 @@
         }
     }
     function createLI(text) {
+
         var newLI = document.createElement('LI');
-        newLI.appendChild(document.createTextNode(text.toString()));
+        newLI.appendChild(createSpan(text));
+        //newLI.onclick = showNote(text);
         return newLI;
+    }
+    function createSpan(text) {
+        var strText = '';
+        if (text<10) {
+            strText = '0'+text; 
+        }else{
+            strText = text.toString(); 
+        }
+        var newSpan = document.createElement('span');
+        newSpan.appendChild(document.createTextNode(strText));
+        //newLI.onclick = showNote(text);
+        return newSpan;
+        //<span class="date-news">November 3, 2009</span>
+    }
+    function showNote(dateParam) {
+        alert('date clicked '+dateParam);
     }
     //reset week and day of month active class
     function resetWeekDay() {
