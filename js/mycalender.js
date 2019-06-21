@@ -78,11 +78,11 @@
     }
     function populateDateGrid() {
         dayLICount = 0;
-        addPrevMonthDates();
-        addCurrMonthDates();
-        addNextMonthDates();
+        addPrevMonthDates(addCurrMonthDates, addNextMonthDates);
+        //addCurrMonthDates();
+        //addNextMonthDates();
     }
-    function addPrevMonthDates() {
+    function addPrevMonthDates(callBack1, callBack2) {
         
         var daysInPrevMonth = days[getPrevMonth()];
         var extraDaysStartFrom = daysInPrevMonth - dayValue();
@@ -93,6 +93,7 @@
             dateElem.appendChild(item); 
             dayLICount++;
         }
+        callBack1(callBack2);
     }
     function getPrevMonth() {
         return ((month-1) === -1? 11 : (month-1));
@@ -102,13 +103,14 @@
         var d = new Date(year+'-'+(month+1)+'-'+1);
         return (d.getDay()-1);
     }
-    function addCurrMonthDates() {
+    function addCurrMonthDates(callBack) {
         for (var index = 1; index <= days[month]; index++) {
             var item = createLI(index);
             //item.className = 'active';
             dateElem.appendChild(item); 
             dayLICount++;
         }
+        callBack();
     }
     function addNextMonthDates() {
         for (var index = 1; index <= (42-dayLICount); index++) {
@@ -120,7 +122,6 @@
     function createLI(text) {
         var newLI = document.createElement('LI');
         newLI.appendChild(document.createTextNode(text.toString()));
-        newLI.appendChild(document.createTextNode(" "));
         return newLI;
     }
     //reset week and day of month active class
